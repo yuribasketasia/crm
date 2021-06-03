@@ -11,6 +11,10 @@
 </head>
 <body>
 Go to <a href="public/login.php">/public/login.php</a>
+<? 
+$welcome = 5;
+echo $welcome; 
+?>
 <!-- this code was build to test daily base invoices -->
 </body>
 </html>
