@@ -1,0 +1,31 @@
+version: '3.3'
+
+services:
+    web:
+        container_name: php-apache 
+        image: php:8.0.7-apache
+        ports:
+            - 8090:80
+        volumes:
+            - ".:/var/www/html/"
+    db:
+        container_name: mariadb
+        image: mariadb:10.5.2
+        volumes:
+            - mariadb-volume:/var/lib/mysql
+        environment:
+            TZ: "Malaysia/Kuala lumpur"
+            MYSQL_ALLOW_EMPTY_PASSWORD: "no"
+            MYSQL_ROOT_PASSWORD: "Abcd#4321"
+            MYSQL_USER: 'web'
+            MYSQL_PASSWORD: 'Abcd#4321'
+            MYSQL_DATABASE: 'web'
+    phpmyadmin:
+        container_name: phpmyadmin
+        image: phpmyadmin/phpmyadmin
+        links:
+            - 'db:db'
+        ports:
+            - '8091:80'
+volumes:
+    mariadb-volume:
