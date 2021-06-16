@@ -1,5 +1,5 @@
 <?php
-include_once('header/headers.php');
+include_once('../includes/header/headers.php');
 require_once('../includes/function/function.php');
 session_page();
 if(isset($_POST['submit'])){
@@ -71,14 +71,9 @@ if(isset($_POST['submit'])){
                                 </div>
                             </div>
                         </div>
-                       
-                      
-                  
-                    </div>
-                    
+                    </div>  
                 </div>
             </div>
-             
         </div>
     </div>
     <!-- ============================================================== -->
