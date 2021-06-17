@@ -1,6 +1,6 @@
 <?php
     //coonnection to database. 
-    define("DB_SERVER", "db");
+    define("DB_SERVER", "crm_db");
     define("DB_USER", "admin1");
     define("DB_PASS","2JOH0pqIvXqeOq5t");
     define("DB_NAME", "admin");
