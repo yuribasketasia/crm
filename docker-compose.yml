@@ -11,6 +11,8 @@ services:
         deploy:
             labels:
                 com.example.description: "apache web server with php and mysqli extenstion"
+            mode: replicated
+            replicas: 2    
             resources:
                 limits:
                     cpus: '0.2'
@@ -18,19 +20,15 @@ services:
                 reservations:
                     cpus: '0.1'
                     memory: 20M
-            mode: replicated
-            replicas: 2
-    db:
-        deploy:
-            mode: replicated
-            replicas: 2
-            resources:
-                limits:
-                    cpus: '0.2'
-                    memory: 50M
-                reservations:
-                    cpus: '0.1'
-                    memory: 20M
+        logging:
+            driver: "json-file"
+            options:
+                max-size: "200k"
+                max-file: "10"
+        networks:
+            app_net:
+                ipv4_address: 10.0.22.10
+    database:
         image: mysql
         command: --default-authentication-plugin=mysql_native_password
         volumes:
@@ -43,11 +41,23 @@ services:
             MYSQL_USER: 'admin1'
             MYSQL_PASSWORD: '2JOH0pqIvXqeOq5t'
             MYSQL_DATABASE: 'admin'
-        
+        deploy:
+            mode: replicated
+            replicas: 2
+#            resources:
+                # limits:
+                #     cpus: '0.2'
+                #     memory: 50M
+                # reservations:
+                #     cpus: '0.1'
+                #     memory: 20M
+        networks:
+            app_net:
+                ipv4_address: 10.0.22.11
     phpmyadmin:
         image: phpmyadmin/phpmyadmin
-        links:
-            - 'db:db'docker 
+        depends_on:
+            - database
         ports:
             - '8091:80'
         deploy:
@@ -61,6 +71,15 @@ services:
         #mode: replicated
         #replicas: 2
         restart: on-failure
+        networks:
+            app_net:
+                ipv4_address: 10.0.22.12
 
 volumes:
     mysql-volume:
+networks:
+    app_net:
+        ipam:
+            driver: overlay
+            config:
+                - subnet: "10.0.22.0/24"
